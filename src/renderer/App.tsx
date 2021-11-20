@@ -1,7 +1,7 @@
 import { MemoryRouter as Router, Switch, Route } from 'react-router-dom';
 import './App.css';
 
-const Hello = () => {
+const Hello = () => { 
   return (
     <div>
         <h1>Neura Test One: Move a Fucking dot</h1>
