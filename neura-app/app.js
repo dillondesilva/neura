@@ -29,20 +29,10 @@ var cube = new THREE.Mesh( geometry, material );
 // Add cube to Scene
 scene.add( cube );
 
-// // Render Loop
-// var render = function () {
-//   requestAnimationFrame( render );
-
-//   cube.rotation.x += 0.01;
-//   cube.rotation.y += 0.01;
-
-//   // Render the scene
-//   renderer.render(scene, camera);
-// };
-
 // render();
 cube.rotation.x += 90;
 cube.rotation.y += 0.01;
+
 renderer.render(scene, camera);
 
 const videoElement = document.getElementsByClassName('input_video')[0];
@@ -54,12 +44,23 @@ function onResults(results) {
   canvasCtx.clearRect(0, 0, canvasElement.width, canvasElement.height);
   canvasCtx.drawImage(
       results.image, 0, 0, canvasElement.width, canvasElement.height);
-  if (results.multiHandLandmarks) {
+  if (results.multiHandLandmarks.length > 0) {
     for (const landmarks of results.multiHandLandmarks) {
       drawConnectors(canvasCtx, landmarks, HAND_CONNECTIONS,
                      {color: '#00FF00', lineWidth: 5});
       drawLandmarks(canvasCtx, landmarks, {color: '#FF0000', lineWidth: 2});
     }
+
+    // Using the index finger tip to perform some hand movements
+    var indexFingerObj = results.multiHandLandmarks[0][8]
+    var indexFingerX = indexFingerObj.x;
+    var indexFingerY = indexFingerObj.y;
+    var indexFingerZ = indexFingerObj.z;
+
+    cube.position.x = (indexFingerX * -3);
+    cube.position.y = (indexFingerY * -3);
+    renderer.render(scene, camera);
+
   }
   canvasCtx.restore();
 }
@@ -67,11 +68,12 @@ function onResults(results) {
 const hands = new Hands({locateFile: (file) => {
   return `https://cdn.jsdelivr.net/npm/@mediapipe/hands/${file}`;
 }});
+
 hands.setOptions({
   maxNumHands: 2,
   modelComplexity: 1,
-  minDetectionConfidence: 0.5,
-  minTrackingConfidence: 0.5
+  minDetectionConfidence: 0.8,
+  minTrackingConfidence: 0.8
 });
 hands.onResults(onResults);
 
@@ -79,8 +81,8 @@ const inputCamera = new Camera(videoElement, {
   onFrame: async () => {
     await hands.send({image: videoElement});
   },
-  width: 1280,
-  height: 720
+  width: 1920,
+  height: 1080
 });
 
 inputCamera.start();
