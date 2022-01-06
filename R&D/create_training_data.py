@@ -22,7 +22,7 @@ CSV_HEADER = ["Gesture", "WRIST_X", "WRIST_Y", "WRIST_Z",
   "RING_FINGER_TIP_Y", "RING_FINGER_TIP_Z", "PINKY_MCP_X", "PINKY_MCP_Y", "PINKY_MCP_Z",
   "PINKY_PIP_X", "PINKY_PIP_Y", "PINKY_PIP_Z", "PINKY_DIP_X", "PINKY_DIP_Y", "PINKY_DIP_Z",
   "PINKY_TIP_X", "PINKY_TIP_Y", "PINKY_TIP_Z"]
-  
+
 CSV_DATA = []
 
 gestures = ["Palm_Open", "Grip"]
@@ -44,7 +44,7 @@ def capture_data(gesture_name):
     if results.multi_hand_landmarks:
       for hand_landmarks in results.multi_hand_landmarks:
         csv_row = [gesture_name]
-        for idx in range(0, 20):
+        for idx in range(0, 21):
           x = hand_landmarks.landmark[idx].x
           y = hand_landmarks.landmark[idx].y
           z = hand_landmarks.landmark[idx].z
