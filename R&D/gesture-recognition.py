@@ -11,11 +11,9 @@ def extract_data(data):
     for idx in range(0, 21):
         x = hand_landmarks.landmark[idx].x
         y = hand_landmarks.landmark[idx].y
-        z = hand_landmarks.landmark[idx].z
 
         csv_row[0].append(x)
         csv_row[0].append(y)
-        csv_row[0].append(z)
         
     return csv_row
 
@@ -42,14 +40,14 @@ with mp_hands.Hands(
     image.flags.writeable = True
     image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
 
-    gesture_recognition_model = joblib.load(open("gesture-recogniser", "rb"))
+    gesture_recognition_model = joblib.load(open("gesture-recogniser.pkl", "rb"))
 
     if results.multi_hand_landmarks:
       for hand_landmarks in results.multi_hand_landmarks:
         data = extract_data(hand_landmarks)
-        predictions = gesture_recognition_model.predict(data)
-
-        print(predictions)
+        predictions = gesture_recognition_model.predict_proba(data)
+        gesture = gesture_recognition_model.predict(data)
+        print(f"{gesture}: {predictions}")
     
         mp_drawing.draw_landmarks(
             image,
@@ -57,6 +55,7 @@ with mp_hands.Hands(
             mp_hands.HAND_CONNECTIONS,
             mp_drawing_styles.get_default_hand_landmarks_style(),
             mp_drawing_styles.get_default_hand_connections_style())
+
     # Flip the image horizontally for a selfie-view display.
     cv2.imshow('MediaPipe Hands', cv2.flip(image, 1))
     if cv2.waitKey(5) & 0xFF == 27:
