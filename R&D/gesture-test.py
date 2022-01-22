@@ -22,7 +22,7 @@ target = gestures_test["Gesture"]
 
 X_train, X_test, y_train, y_test = train_test_split(X, target, test_size=0.1)
 
-gesture_recognition_model = joblib.load(open("gesture-recogniser", "rb"))
+gesture_recognition_model = joblib.load(open("gesture-recogniser.pkl", "rb"))
 
 y_pred = gesture_recognition_model.predict(X_test)
 

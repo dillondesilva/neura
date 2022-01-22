@@ -1,4 +1,5 @@
 import argparse
+import shortuuid
 import os
 from buddy.data_creator import DataCreator
 from buddy.trainer import Trainer
@@ -10,8 +11,8 @@ def run_create(content_format, imgdir, output):
     else:
         dc.capture_via_cam(output)
 
-def run_train(training_file, model_type):
-    trainer = Trainer(training_file)
+def run_train(training_file, model_type, output_dir, output_fname):
+    trainer = Trainer(training_file, output_dir, output_fname)
 
     if model_type == "rf":
         trainer.create_random_forest_model()
@@ -34,10 +35,10 @@ def main():
     help='directory with images for capturing training data points', default=f"{os.getcwd()}")
 
     parser.add_argument('--output_fname', type=str, \
-    help='output file name for training data points csv', default="gesture_train")
+    help='output file name for training data points csv or ML model', default=shortuuid.uuid(length=6))
 
     parser.add_argument('--output_dir', type=str, \
-    help='output directory for training data points csv', default=f"{os.getcwd()}")
+    help='output directory for training data points csv or ML model', default=f"{os.getcwd()}")
 
     args = parser.parse_args()
 
