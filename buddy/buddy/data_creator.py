@@ -96,7 +96,7 @@ class DataCreator():
   # capture_via_cam() runs a live webcam
   # CLI Profiler to help capture MediaPipe hand landmark data
   # and write to an output csv file for training/testing from
-  def capture_via_cam(self, output_fname, output_dir):
+  def capture_via_cam(self, output_dir, output_fname):
     cap = cv2.VideoCapture(0)
     
     for gesture in self._capture_gestures:
@@ -108,7 +108,7 @@ class DataCreator():
         self.take_live_snapshot(gesture, success, image)
         capture_count += 1
 
-    with open(f"{output_dir}/TestData/{output_fname}.csv", "w", encoding="utf-8") as training_data_file:
+    with open(f"{output_dir}/{output_fname}.csv", "w", encoding="utf-8") as training_data_file:
       writer = csv.writer(training_data_file)
       writer.writerow(self._capture_features)
       writer.writerows(self._captured_data)
@@ -127,7 +127,7 @@ class DataCreator():
         path = f"{input_dir}/{gesture}/{filename}"
         self.take_static_snapshot(gesture, path)
     
-    with open(f"{output_dir}/TestData/{output_fname}.csv", "w") as training_data_file:
+    with open(f"{output_dir}/{output_fname}.csv", "w") as training_data_file:
       writer = csv.writer(training_data_file)
       writer.writerow(self._capture_features)
       writer.writerows(self._captured_data)
