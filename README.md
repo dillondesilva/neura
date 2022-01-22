@@ -2,9 +2,9 @@
 
 Neura's Git repo is essentially split into three critical components:
 
-- neura-app: This is the actual application side of Neura (ie: What our users will see)
-- buddy: This is a production grade machine learning utility that will help power Neura's immersive gesture recognition capabilities
-- R&D: This is our prototyping work and is generally built with an end user approach to validate an idea or test a mechanism
+- **neura-app**: This is the actual application side of Neura (ie: What our users will see)
+- **buddy**: This is a production grade machine learning utility that will help power Neura's immersive gesture recognition capabilities
+- **R&D**: This is our prototyping work and is generally built with an end user approach to validate an idea or test a mechanism
 
 ## Using buddy
 
