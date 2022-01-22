@@ -1,6 +1,7 @@
 import argparse
 import os
-from data_creator import DataCreator
+from buddy.data_creator import DataCreator
+from buddy.trainer import Trainer
 
 def run_create(content_format, imgdir, output):
     dc = DataCreator()
@@ -8,6 +9,12 @@ def run_create(content_format, imgdir, output):
         dc.capture_via_static(output, imgdir)
     else:
         dc.capture_via_cam(output)
+
+def run_train(training_file, model_type):
+    trainer = Trainer(training_file)
+
+    if model_type == "rf":
+        trainer.create_random_forest_model()
 
 def main(): 
     parser = argparse.ArgumentParser(description='Mode for running')
@@ -19,15 +26,26 @@ def main():
     help='format of content being captured upon data creation (live/static)', \
     default="live")
 
-    parser.add_argument('--imgdir', type=str, \
-    help='directory with images for capturing training data points', default=f"{os.getcwd()}/TestData/static")
+    parser.add_argument('--model', type=str, \
+    help='model classifier to use for training', \
+    default="rf")
 
-    parser.add_argument('--output', type=str, \
+    parser.add_argument('--imgdir', type=str, \
+    help='directory with images for capturing training data points', default=f"{os.getcwd()}")
+
+    parser.add_argument('--output_fname', type=str, \
     help='output file name for training data points csv', default="gesture_train")
+
+    parser.add_argument('--output_dir', type=str, \
+    help='output directory for training data points csv', default=f"{os.getcwd()}")
 
     args = parser.parse_args()
 
     if args.mode == "create":
         run_create(args.content, args.imgdir, args.output)
-            
-main()
+    
+    if args.mode == "train":
+        run_train(args.training_file, args.model)
+
+if __name__ == "__main__":
+    main()

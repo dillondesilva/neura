@@ -4,8 +4,13 @@ version = "0.1.0"
 description = ""
 authors = ["dillondesilva <dillon.desilva@geeksdiary.com>"]
 
+[tool.poetry.scripts]
+buddy = "buddy.main:main"
+
 [tool.poetry.dependencies]
-python = "^3.7"
+python = ">=3.7.1,<4.0"
+mediapipe = "^0.8.9"
+pandas = "^1.3.5"
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"
