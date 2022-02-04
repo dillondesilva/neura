@@ -1,5 +1,6 @@
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier
+from sklearn.neural_network import MLPClassifier
 from sklearn import metrics
 
 import pandas as pd
@@ -25,20 +26,24 @@ class Trainer():
 
         self._target_feature = ["Gesture"]
 
-        self._gestures_df = pd.read_csv(training_data_path)
+        self._gestures_df = pd.read_csv(training_data_file)
         self._target_feature = self._gestures_df["Gesture"]
         self._training_features = self._gestures_df[self._features]
         self._output = f"{output_dir}/{output_fname}.pkl"
 
     # Creates a model using a random forest classifier
-    def create_rf_model():
+    def create_rf_model(self):
         rf_classifier = RandomForestClassifier()
         rf_classifier.fit(self._training_features, self._target_feature)
 
         joblib.dump(rf_classifier, self._output)
 
-    def create_knn_model():
+    def create_knn_model(self):
         pass
 
-    def create_neural_net_model():
+    def create_neural_net_model(self):
+        nn_classifier = MLPClassifier()
+        nn_classifier.fit(self._training_features, self._target_feature)
+
+        joblib.dump(nn_classifier, self._output)
         pass
